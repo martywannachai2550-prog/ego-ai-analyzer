@@ -1,12 +1,12 @@
 def analyze_ego(scores):
 
-    self_score = scores["self"]
+    individualistic_score = scores["individualistic"]
     wholistic_score = scores["wholistic"]
     freedom_score = scores["freedom"]
     restrictive_score = scores["restrictive"]
 
-    if self_score > wholistic_score:
-        orientation = "Self"
+    if individualistic_score > wholistic_score:
+        orientation = "Individualistic"
     else:
         orientation = "Wholistic"
 
@@ -17,10 +17,10 @@ def analyze_ego(scores):
 
     ego_type = orientation + " " + control
 
-    if ego_type == "Self Freedom":
+    if ego_type == "Individualistic Freedom":
         type_name = "Instinct Striker"
 
-    elif ego_type == "Self Restrictive":
+    elif ego_type == "Individualistic Restrictive":
         type_name = "Calculated Egoist"
 
     elif ego_type == "Wholistic Freedom":

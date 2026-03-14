@@ -26,7 +26,7 @@ strength = st.text_area("Your biggest strength")
 if st.button("Analyze"):
 
     scores = {
-        "self": logic + competition,
+        "individualistic": logic + competition,
         "wholistic": system_thinking,
         "freedom": creativity,
         "restrictive": logic
