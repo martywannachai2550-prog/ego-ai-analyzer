@@ -30,3 +30,4 @@ def analyze_ego(scores):
         type_name = "Strategic Architect"
 
     return orientation, control, type_name
+
