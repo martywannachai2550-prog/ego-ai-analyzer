@@ -2,28 +2,10 @@ import streamlit as st
 import json
 import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
 
 from ego_analysis import analyze_ego
 from learning_plan import generate_plan
-
-
-st.title("AI Self Development Analyzer")
-
-
-name = st.text_input("Your Name")
-
-st.header("Rate Yourself (1-10)")
-
-logic = st.slider("Logical Thinking",1,10)
-creativity = st.slider("Creativity",1,10)
-competition = st.slider("Competitiveness",1,10)
-system_thinking = st.slider("System Thinking",1,10)
-
-st.header("Open Questions")
-
-goal = st.text_input("What skill do you want to master?")
-learning_style = st.text_area("How do you usually learn?")
-strength = st.text_area("Your biggest strength")
 
 def plot_radar(logic, creativity, competition, system):
 
@@ -44,6 +26,49 @@ def plot_radar(logic, creativity, competition, system):
     ax.set_thetagrids(angles[:-1] * 180/np.pi, labels)
 
     return fig
+
+ego_description = {
+    "Instinct Striker": {
+        "desc": "You rely on instinct and freedom to grow.",
+        "strength": "Fast learner, fearless, competitive",
+        "weakness": "May lack structure, inconsistent"
+    },
+
+    "Calculated Egoist": {
+        "desc": "You grow through discipline and structured strategy.",
+        "strength": "Consistent, analytical, focused",
+        "weakness": "May become rigid, slow to adapt"
+    },
+
+    "Creative Playmaker": {
+        "desc": "You connect ideas and innovate.",
+        "strength": "Creative, adaptive, visionary",
+        "weakness": "May lack execution consistency"
+    },
+
+    "Strategic Architect": {
+        "desc": "You understand systems deeply.",
+        "strength": "Strategic, deep thinker",
+        "weakness": "Overthinking, slow action"
+    }
+}
+
+st.title("AI Self Development Analyzer")
+
+name = st.text_input("Your Name")
+
+st.header("Rate Yourself (1-10)")
+
+logic = st.slider("Logical Thinking",1,10)
+creativity = st.slider("Creativity",1,10)
+competition = st.slider("Competitiveness",1,10)
+system_thinking = st.slider("System Thinking",1,10)
+
+st.header("Open Questions")
+
+goal = st.text_input("What skill do you want to master?")
+learning_style = st.text_area("How do you usually learn?")
+strength = st.text_area("Your biggest strength")
 
 if st.button("Analyze"):
 
@@ -95,32 +120,6 @@ st.subheader("Skill Radar")
 fig = plot_radar(logic, creativity, competition, system_thinking)
 st.pyplot(fig)
 
-ego_description = {
-    "Instinct Striker": {
-        "desc": "You rely on instinct and freedom to grow.",
-        "strength": "Fast learner, fearless, competitive",
-        "weakness": "May lack structure, inconsistent"
-    },
-
-    "Calculated Egoist": {
-        "desc": "You grow through discipline and structured strategy.",
-        "strength": "Consistent, analytical, focused",
-        "weakness": "May become rigid, slow to adapt"
-    },
-
-    "Creative Playmaker": {
-        "desc": "You connect ideas and innovate.",
-        "strength": "Creative, adaptive, visionary",
-        "weakness": "May lack execution consistency"
-    },
-
-    "Strategic Architect": {
-        "desc": "You understand systems deeply.",
-        "strength": "Strategic, deep thinker",
-        "weakness": "Overthinking, slow action"
-    }
-}
-
 st.subheader("About Your Ego")
 
 info = ego_description[type_name]
@@ -128,8 +127,6 @@ info = ego_description[type_name]
 st.write("Description:", info["desc"])
 st.write("Strength:", info["strength"])
 st.write("Weakness:", info["weakness"])
-
-import pandas as pd
 
 st.header("User Dashboard")
 
