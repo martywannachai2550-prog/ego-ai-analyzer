@@ -22,5 +22,17 @@
         "goal": "Adaptablility.",
         "strength": "Adaptation.",
         "ego_type": "Instinct Striker"
+    },
+    {
+        "name": "Romart01",
+        "goal": "Adaptablility.",
+        "strength": "Adaptation.",
+        "ego_type": "Calculated Egoist"
+    },
+    {
+        "name": "Romart02",
+        "goal": "Adaptablility.",
+        "strength": "Adaptation.",
+        "ego_type": "Instinct Striker"
     }
 ]
