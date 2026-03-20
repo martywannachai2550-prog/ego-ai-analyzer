@@ -7,23 +7,26 @@ import pandas as pd
 from ego_analysis import analyze_ego
 from learning_plan import generate_plan
 
-def plot_radar(logic, creativity, competition, system):
+def plot_ego_matrix(scores):
 
-    labels = ["Logic", "Creativity", "Competition", "System"]
-    values = [logic, creativity, competition, system]
+    x = scores["individualistic"] - scores["wholistic"]
+    y = scores["freedom"] - scores["restrictive"]
 
-    values += values[:1]  # ปิดกราฟ
+    fig, ax = plt.subplots()
 
-    angles = np.linspace(0, 2*np.pi, len(labels), endpoint=False)
-    angles = np.concatenate((angles, [angles[0]]))
+    ax.axhline(0)
+    ax.axvline(0)
 
-    fig = plt.figure()
-    ax = fig.add_subplot(111, polar=True)
+    ax.scatter(x, y, color="red", s=120)
+    ax.grid(True)
 
-    ax.plot(angles, values)
-    ax.fill(angles, values, alpha=0.2)
+    ax.text(x, y, "You", fontsize=12)
 
-    ax.set_thetagrids(angles[:-1] * 180/np.pi, labels)
+    ax.set_xlabel("← Wholistic | Individualistic →")
+    ax.set_ylabel("↓ Restrictive | Freedom ↑")
+
+    ax.set_xlim(-20, 20)
+    ax.set_ylim(-20, 20)
 
     return fig
 
@@ -71,67 +74,76 @@ learning_style = st.text_area("How do you usually learn?")
 strength = st.text_area("Your biggest strength")
 
 if st.button("Analyze"):
+    if not name:
+        st.warning("Please enter your name")
+    else:
+        scores = {
+            "individualistic": logic + competition,
+            "wholistic": system_thinking,
+            "freedom": creativity,
+            "restrictive": logic
+        }
 
-    scores = {
-        "individualistic": logic + competition,
-        "wholistic": system_thinking,
-        "freedom": creativity,
-        "restrictive": logic
-    }
+        fig = plot_ego_matrix(scores)
+        st.subheader("Ego Matrix")
+        st.pyplot(fig)
 
-    orientation, control, type_name = analyze_ego(scores)
+        orientation, control, type_name = analyze_ego(scores)
 
-    strategy, schedule = generate_plan(type_name)
+        strategy, schedule = generate_plan(type_name)
 
-    st.header("Result")
+        st.header("Result")
 
-    st.write("Ego Orientation:", orientation)
-    st.write("Control Style:", control)
-    st.write("Ego Type:", type_name)
+        st.write("Ego Orientation:", orientation)
+        st.write("Control Style:", control)
+        st.write("Ego Type:", type_name)
 
-    st.subheader("Learning Strategy")
+        st.subheader("Learning Strategy")
 
-    st.write(strategy)
+        st.write(strategy)
 
-    st.subheader("Suggested Study Plan")
+        st.subheader("About Your Ego")
 
-    for i, s in enumerate(schedule):
-        st.write(f"Day {i+1} - {s}")
+        info = ego_description[type_name]
 
-    data = {
-        "name": name,
-        "goal": goal,
-        "strength": strength,
-        "ego_type": type_name
-    }
+        st.write("Description:", info["desc"])
+        st.write("Strength:", info["strength"])
+        st.write("Weakness:", info["weakness"])
 
-    with open("data/users.json","r") as f:
-        users = json.load(f)
 
-    users.append(data)
+        st.subheader("Suggested Study Plan")
 
-    with open("data/users.json","w") as f:
-        json.dump(users,f,indent=4)
+        for i, s in enumerate(schedule):
+            st.write(f"Day {i+1} - {s}")
 
-    st.success("User data saved")
+        data = {
+            "name": name,
+            "goal": goal,
+            "strength": strength,
+            "ego_type": type_name
+        }
+        try:
+            with open("data/users.json","r") as f:
+                users = json.load(f)
+        except:
+            users = []
 
-st.subheader("Skill Radar")
+        users.append(data)
 
-fig = plot_radar(logic, creativity, competition, system_thinking)
-st.pyplot(fig)
+        try:
+            with open("data/users.json","w") as f:
+                json.dump(users,f,indent=4)
+        except:
+            users = []
 
-st.subheader("About Your Ego")
-
-info = ego_description[type_name]
-
-st.write("Description:", info["desc"])
-st.write("Strength:", info["strength"])
-st.write("Weakness:", info["weakness"])
+        st.success("User data saved")
 
 st.header("User Dashboard")
-
-with open("data/users.json","r") as f:
-    users = json.load(f)
+try:
+    with open("data/users.json","r") as f:
+        users = json.load(f)
+except:
+    users = []
 
 if users:
     df = pd.DataFrame(users)
