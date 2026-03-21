@@ -18,16 +18,16 @@ def analyze_ego(scores):
     ego_type = orientation + " " + control
 
     if ego_type == "Individualistic Freedom":
-        type_name = "Instinct Striker"
+        type_name = "Independent Learner"
 
     elif ego_type == "Individualistic Restrictive":
-        type_name = "Calculated Egoist"
+        type_name = "Structured Individual"
 
     elif ego_type == "Wholistic Freedom":
-        type_name = "Creative Playmaker"
+        type_name = "Collaborative Explorer"
 
     else:
-        type_name = "Strategic Architect"
+        type_name = "Systematic Collaborator"
 
     return orientation, control, type_name
 

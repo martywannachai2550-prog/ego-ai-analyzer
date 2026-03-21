@@ -34,5 +34,23 @@
         "goal": "Adaptablility.",
         "strength": "Adaptation.",
         "ego_type": "Instinct Striker"
+    },
+    {
+        "name": "Romart03",
+        "goal": "Adaptablility.",
+        "strength": "Adaptation.",
+        "ego_type": "Instinct Striker"
+    },
+    {
+        "name": "Romart04",
+        "goal": "Adaptablility.",
+        "strength": "Determination.",
+        "ego_type": "Instinct Striker"
+    },
+    {
+        "name": "Romart04",
+        "goal": "Adaptablility.",
+        "strength": "Determination.",
+        "ego_type": "Calculated Egoist"
     }
 ]

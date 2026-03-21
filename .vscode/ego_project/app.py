@@ -136,22 +136,4 @@ if st.button("Analyze"):
         except:
             users = []
 
-        st.success("User data saved")
-
-st.header("User Dashboard")
-try:
-    with open("data/users.json","r") as f:
-        users = json.load(f)
-except:
-    users = []
-
-if users:
-    df = pd.DataFrame(users)
-
-    st.subheader("All Users")
-    st.dataframe(df)
-
-    st.subheader("Ego Type Distribution")
-    st.bar_chart(df["ego_type"].value_counts())
-else:
-    st.write("No data yet")
+        st.info("Your data is stored locally and will not be shared. All results are for personal use only.")

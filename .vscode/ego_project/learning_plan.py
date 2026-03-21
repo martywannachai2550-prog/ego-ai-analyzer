@@ -1,6 +1,6 @@
 def generate_plan(type_name):
 
-    if type_name == "Instinct Striker":
+    if type_name == "Independent Learner":
 
         strategy = "Project based learning"
 
@@ -12,7 +12,7 @@ def generate_plan(type_name):
             "Publish your work"
         ]
 
-    elif type_name == "Calculated Egoist":
+    elif type_name == "Structured Individual":
 
         strategy = "Structured training"
 
@@ -24,7 +24,7 @@ def generate_plan(type_name):
             "Take a mini test"
         ]
 
-    elif type_name == "Creative Playmaker":
+    elif type_name == "Collaborative Explorer":
 
         strategy = "Exploratory learning"
 
