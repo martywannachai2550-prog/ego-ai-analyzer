@@ -63,7 +63,7 @@ ego_description = {
 
 st.title("AI Self Development Analyzer")
 
-st.markdown("## 👤 Please enter your name to begin")
+st.markdown("👤 Please enter your name to begin")
 name = st.text_input("")
 
 st.header("Personality & Character Types")
