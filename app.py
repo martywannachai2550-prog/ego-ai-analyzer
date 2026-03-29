@@ -274,8 +274,8 @@ if st.button("Analyze"):
         users.append(data)
 
         try:
-            with open("data/users.json","w") as f:
-                json.dump(users,f,indent=4)
+            with open("data/users.json", "w", encoding="utf-8") as f:
+                json.dump(users, f, indent=4, ensure_ascii=False)
         except:
             users = []
 
