@@ -106,7 +106,7 @@ ego_description = {
 col1, col2 = st.columns([6,1])
 
 with col2:
-    language = st.selectbox("🌐", ["EN", "TH"])
+    language = st.selectbox(["EN", "TH"])
 
 st.title(text[language]["title"])
 name = st.text_input(text[language]["name"])
