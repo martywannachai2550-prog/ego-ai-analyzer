@@ -11,10 +11,10 @@ text = {
     "EN": {
         "title": "AI Self Development Analyzer",
         "name": "👤 Please enter your name to begin",
-        "personality": "Personality & Character Types",
-        "mindset": "Mindset Types",
-        "rate": "Rate Yourself (1-5)",
-        "open": "Open Questions",
+        "personality": "--Personality & Character Types--",
+        "mindset": "--Mindset Types--",
+        "rate": "--Rate Yourself (1-5)--",
+        "open": "--Open Questions--",
         "analyze": "Analyze",
         "warning_name": "Please enter your name",
         "warning_q": "Please answer all questions",
@@ -106,7 +106,7 @@ ego_description = {
 col1, col2 = st.columns([6,1])
 
 with col2:
-    language = st.selectbox(["EN", "TH"])
+    language = st.selectbox("",["EN", "TH"])
 
 st.title(text[language]["title"])
 name = st.text_input(text[language]["name"])
