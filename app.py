@@ -7,6 +7,48 @@ import pandas as pd
 from ego_analysis import analyze_ego
 from learning_plan import generate_plan
 
+text = {
+    "EN": {
+        "title": "AI Self Development Analyzer",
+        "name": "👤 Please enter your name to begin",
+        "personality": "Personality & Character Types",
+        "mindset": "Mindset Types",
+        "rate": "Rate Yourself (1-5)",
+        "open": "Open Questions",
+        "analyze": "Analyze",
+        "warning_name": "Please enter your name",
+        "warning_q": "Please answer all questions",
+        "result": "Result",
+        "ego": "Ego Orientation",
+        "control": "Control Style",
+        "type": "Ego Type",
+        "why": "Why this result?",
+        "strategy": "Learning Strategy",
+        "about": "About Your Ego",
+        "plan": "Suggested Study Plan"
+    },
+
+    "TH": {
+        "title": "ระบบวิเคราะห์การพัฒนาตนเอง",
+        "name": "👤 กรุณากรอกชื่อของคุณ",
+        "personality": "ลักษณะนิสัยและพฤติกรรม",
+        "mindset": "รูปแบบการเรียนรู้",
+        "rate": "ให้คะแนนตัวเอง (1-5)",
+        "open": "คำถามเพิ่มเติม",
+        "analyze": "วิเคราะห์",
+        "warning_name": "กรุณากรอกชื่อ",
+        "warning_q": "กรุณาตอบคำถามให้ครบ",
+        "result": "ผลลัพธ์",
+        "ego": "ลักษณะการเรียนรู้",
+        "control": "รูปแบบการควบคุม",
+        "type": "ประเภทของคุณ",
+        "why": "เหตุผลของผลลัพธ์",
+        "strategy": "กลยุทธ์การเรียน",
+        "about": "เกี่ยวกับตัวคุณ",
+        "plan": "แผนการเรียนที่แนะนำ"
+    }
+}
+
 individualistic = 0
 wholistic = 0
 freedom = 0
@@ -61,11 +103,15 @@ ego_description = {
     }
 }
 
-st.title("AI Self Development Analyzer")
+col1, col2 = st.columns([6,1])
 
-name = st.text_input("👤 Please enter your name to begin")
+with col2:
+    language = st.selectbox("🌐", ["EN", "TH"])
 
-st.header("Personality & Character Types")
+st.title(text[language]["title"])
+name = st.text_input(text[language]["name"])
+
+st.header(text[language]["personality"])
 PC1 = st.radio("When working on a difficult assignment",
                ['I prefer discussing with others to understand it',
                 'I prefer solving it on my own first'],
@@ -126,7 +172,7 @@ if PC6 == 'I prefer working independently':
 elif PC6 == 'I learn better through interaction':
     wholistic += 2
 
-st.header("Mindset Types")
+st.header(text[language]["mindset"])
 M1 = st.radio("I perform best when",
               ['I can choose my own way to complete tasks',
                'I have clear instructions to follow'],
@@ -186,25 +232,25 @@ if M6 == 'I feel comfortable with freedom':
 elif M6 == 'I feel comfortable with clear rules':
     restrictive += 2
 
-st.header("Rate Yourself (1-5)")
+st.header(text[language]["rate"])
 logic = st.slider("Logical Thinking",1,5)
 creativity = st.slider("Creativity",1,5)
 competition = st.slider("Competitiveness",1,5)
 system_thinking = st.slider("System Thinking",1,5)
 
-st.header("Open Questions")
+st.header(text[language]["open"])
 
 goal = st.text_input("What skill do you want to master?")
 learning_style = st.text_area("How do you usually learn?")
 strength = st.text_area("Your biggest strength")
 
-if st.button("Analyze"):
+if st.button(text[language]["analyze"]):
     if not name:
-        st.warning("Please enter your name")
+        st.warning(text[language]["warning_name"])
     else:
         all_answers = [PC1, PC2, PC3, PC4, PC5, PC6, M1, M2, M3, M4, M5, M6]
         if None in all_answers:
-            st.warning("Please answer all questions")
+            st.warning(text[language]["warning_q"])
             st.stop()
             
         scores = {
@@ -222,13 +268,13 @@ if st.button("Analyze"):
 
         strategy, schedule = generate_plan(type_name)
 
-        st.header("Result")
+        st.header(text[language]["result"])
 
-        st.write("Ego Orientation:", orientation)
-        st.write("Control Style:", control)
-        st.write("Ego Type:", type_name)
+        st.write(text[language]["ego"] + ":", orientation)
+        st.write(text[language]["control"] + ":", control)
+        st.write(text[language]["type"] + ":", type_name)
 
-        st.subheader("Why this result?")
+        st.subheader(text[language]["why"])
         for e in explanation:
             st.write("- " + e)
 
@@ -242,19 +288,19 @@ if st.button("Analyze"):
             level = "Low"
         st.write(f"Confidence Level: {level} ({confidence})")
 
-        st.subheader("Learning Strategy")
+        st.subheader(text[language]["strategy"])
 
         st.write(strategy)
 
-        st.subheader("About Your Ego")
+        st.subheader(text[language]["about"])
 
-        info = ego_description[type_name]
+        info = ego_description[type_name][language]
 
         st.write("Description:", info["desc"])
         st.write("Strength:", info["strength"])
         st.write("Weakness:", info["weakness"])
 
-        st.subheader("Suggested Study Plan")
+        st.subheader(text[language]["plan"])
 
         for i, s in enumerate(schedule):
             st.write(f"Day {i+1} - {s}")
