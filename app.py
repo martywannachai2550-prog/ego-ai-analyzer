@@ -7,48 +7,115 @@ import pandas as pd
 from ego_analysis import analyze_ego
 from learning_plan import generate_plan
 
-pquestion = {
-    "EN":{
-        "pquestion1": ("1.)When working on a difficult assignment",
-                       ["I can choose my own way to complete tasks",
-                        "I have clear instructions to follow"]),
-        "pquestion2": ("2.)When learning something new",
-                        ["I rely on my own thinking and interpretation",
-                         "I rely on examples, teachers, or peers"]),
-        "pquestion3": ("3.)In group work",
-                       ["I focus on my own part and performance",
-                        "I focus on how the group performs as a whole"]),
-        "pquestion4": ("4.)When facing a problem",
-                       ["I adapt based on the situation and people around me",
-                        "I trust my own method"]),
-        "pquestion5": ("5.)When receiving feedback",
-                       ["I actively adjust based on feedback",
-                        "I evaluate it but rely mostly on my own judgment"]),
-        "pquestion6": ("6.)In class",
-                       ["I prefer working independently",
-                        "I learn better through interaction"])
+pquestion = [
+    {
+        "EN": (
+            "1.)When working on a difficult assignment",
+            [
+                "I can choose my own way to complete tasks",
+                "I have clear instructions to follow"
+            ]
+        ),
+        "TH": (
+            "1.)เมื่อต้องทำงานที่มีความยากลำบาก",
+            [
+                "ฉันสามารถเลือกวิธีการทำงานในแบบของฉันเอง",
+                "ฉันมักทำตามคำแนะนำที่มีความชัดเจน"
+            ]
+        ),
+        "score": ["individualistic", "wholistic"]
     },
-    "TH":{
-        "pquestion1": ("1.)เมื่อต้องทำงานที่มีความยากลำบาก",
-                       ["ฉันสามารถเลือกวิธีการทำงานในแบบของฉันเอง",
-                        "ฉันมักทำตามคำแนะนำที่มีความชัดเจน"]),
-        "pquestion2": ("2.)เมื่อต้องเรียนรู้สิ่งใหม่ๆ",
-                        ["ฉันมักจะพึ่งพาความคิดและความสามารถของตัวเอง",
-                         "ฉันเรียนรู้ผ่านตัวอย่างที่คุณครูสอนหรือของเพื่อน"]),
-        "pquestion3": ("3.)การทำงานกลุ่ม",
-                       ["ฉันโฟกัสไปที่ส่วนของฉันและผลงานของฉันเอง",
-                        "ฉันให้ความสำคัญกับผลการปฎิบัติการโดยรวมของเพื่อนร่วมงานภายในกลุ่ม"]),
-        "pquestion4": ("4.)เมื่อเผชิญหน้ากับปัญหา",
-                       ["ฉันจะปรับตัวไปตามสถานการณ์และผู้คนรอบๆตัว",
-                        "ฉันเชื่อมั่นในความสามารถของฉันเอง"]),
-        "pquestion5": ("5.)เมื่อได้รับคำติชม",
-                       ["ฉันเปิดรับและปรับปรุงตามคำติชมอย่างต่อเนื่อง",
-                        "ฉันเปิดรับคำติชมแต่ส่วนใหญ่จะอาศัยการตัดสินใจของตนเอง"]),
-        "pquestion6": ("6.)ขณะอยู่ในชั้นเรียน",
-                       ["ฉันชอบการทำงานเดี่ยว",
-                        "ฉันเรียนรู้ได้ดีจากการมีปฏิสัมพันธ์กับเพื่อนร่วมห้อง"])
+
+    {
+        "EN": (
+            "2.)When learning something new",
+            [
+                "I rely on my own thinking and interpretation",
+                "I rely on examples, teachers, or peers"
+            ]
+        ),
+        "TH": (
+            "2.)เมื่อต้องเรียนรู้สิ่งใหม่ๆ",
+            [
+                "ฉันมักจะพึ่งพาความคิดและความสามารถของตัวเอง",
+                "ฉันเรียนรู้ผ่านตัวอย่างที่คุณครูสอนหรือของเพื่อน"
+            ]
+        ),
+        "score": ["individualistic", "wholistic"]
+    },
+
+    {
+        "EN": (
+            "3.)In group work",
+            [
+                "I focus on my own part and performance",
+                "I focus on how the group performs as a whole"
+            ]
+        ),
+        "TH": (
+            "3.)การทำงานกลุ่ม",
+            [
+                "ฉันโฟกัสไปที่ส่วนของฉันและผลงานของฉันเอง",
+                "ฉันให้ความสำคัญกับผลการปฎิบัติการโดยรวมของเพื่อนร่วมงานภายในกลุ่ม"
+            ]
+        ),
+        "score": ["individualistic", "wholistic"]
+    },
+
+    {
+        "EN": (
+            "4.)When facing a problem",
+            [
+                "I adapt based on the situation and people around me",
+                "I trust my own method"
+            ]
+        ),
+        "TH": (
+            "4.)เมื่อเผชิญหน้ากับปัญหา",
+            [
+                "ฉันจะปรับตัวไปตามสถานการณ์และผู้คนรอบๆตัว",
+                "ฉันเชื่อมั่นในความสามารถของฉันเอง"
+            ]
+        ),
+        "score": ["wholistic", "individualistic"]
+    },
+
+    {
+        "EN": (
+            "5.)When receiving feedback",
+            [
+                "I actively adjust based on feedback",
+                "I evaluate it but rely mostly on my own judgment"
+            ]
+        ),
+        "TH": (
+            "5.)เมื่อได้รับคำติชม",
+            [
+                "ฉันเปิดรับและปรับปรุงตามคำติชมอย่างต่อเนื่อง",
+                "ฉันเปิดรับคำติชมแต่ส่วนใหญ่จะอาศัยการตัดสินใจของตนเอง"
+            ]
+        ),
+        "score": ["wholistic", "individualistic"]
+    },
+
+    {
+        "EN": (
+            "6.)In class",
+            [
+                "I prefer working independently",
+                "I learn better through interaction"
+            ]
+        ),
+        "TH": (
+            "6.)ขณะอยู่ในชั้นเรียน",
+            [
+                "ฉันชอบการทำงานเดี่ยว",
+                "ฉันเรียนรู้ได้ดีจากการมีปฏิสัมพันธ์กับเพื่อนร่วมห้อง"
+            ]
+        ),
+        "score": ["individualistic", "wholistic"]
     }
-}
+]
 
 text = {
     "EN": {
@@ -155,65 +222,23 @@ st.title(text[language]["title"])
 name = st.text_input(text[language]["name"])
 
 st.header(text[language]["personality"])
-PC1 = st.radio("When working on a difficult assignment",
-               ['I prefer discussing with others to understand it',
-                'I prefer solving it on my own first'],
-                index = None)
+pc_answers = []
 
-PC2 = st.radio("When learning something new",
-               ['I rely on my own thinking and interpretation',
-                'I rely on examples, teachers, or peers'],
-                index = None)
+for i, q in enumerate(pquestion):
+    question, options = q[language]
 
-PC3 = st.radio("In group work",
-               ['I focus on my own part and performance',
-                'I focus on how the group performs as a whole'],
-                index = None)
+    ans = st.radio(f"{i+1}. {question}", options, index=None)
 
-PC4 = st.radio("When facing a problem",
-               ['I adapt based on the situation and people around me',
-                'I trust my own method'],
-                index = None)
+    pc_answers.append((ans, q))
 
-PC5 = st.radio("When receiving feedback",
-               ['I actively adjust based on feedback',
-                'I evaluate it but rely mostly on my own judgment'],
-                index = None)
+for ans, q in pc_answers:
+    if ans is not None:
+        index = q[language][1].index(ans)
 
-PC6 = st.radio("In class",
-               ['I prefer working independently',
-                'I learn better through interaction'],
-                index = None)
-
-if PC1 == 'I prefer solving it on my own first':
-    individualistic += 2
-elif PC1 == 'I prefer discussing with others to understand it':
-    wholistic += 2
-
-if PC2 == 'I rely on my own thinking and interpretation':
-    individualistic += 2
-elif PC2 == 'I rely on examples, teachers, or peers':
-    wholistic += 2
-
-if PC3 == 'I focus on my own part and performance':
-    individualistic += 2
-elif PC3 == 'I focus on how the group performs as a whole':
-    wholistic += 2
-
-if PC4 == 'I trust my own method':
-    individualistic += 2
-elif PC4 == 'I adapt based on the situation and people around me':
-    wholistic += 2
-
-if PC5 == 'I evaluate it but rely mostly on my own judgment':
-    individualistic += 2
-elif PC5 == 'I actively adjust based on feedback':
-    wholistic += 2
-
-if PC6 == 'I prefer working independently':
-    individualistic += 2
-elif PC6 == 'I learn better through interaction':
-    wholistic += 2
+        if q["score"][index] == "individualistic":
+            individualistic += 2
+        else:
+            wholistic += 2
 
 st.header(text[language]["mindset"])
 M1 = st.radio("I perform best when",
@@ -337,7 +362,7 @@ if st.button(text[language]["analyze"]):
 
         st.subheader(text[language]["about"])
 
-        info = ego_description[type_name][language]
+        info = ego_description[language][type_name]
 
         st.write("Description:", info["desc"])
         st.write("Strength:", info["strength"])
