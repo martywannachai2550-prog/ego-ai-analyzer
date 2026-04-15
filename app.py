@@ -227,7 +227,7 @@ pc_answers = []
 for i, q in enumerate(pquestion):
     question, options = q[language]
 
-    ans = st.radio(f"{i+1}. {question}", options, index=None)
+    ans = st.radio(question, options, index=None)
 
     pc_answers.append((ans, q))
 
