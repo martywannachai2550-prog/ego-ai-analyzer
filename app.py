@@ -7,6 +7,49 @@ import pandas as pd
 from ego_analysis import analyze_ego
 from learning_plan import generate_plan
 
+pquestion = {
+    "EN":{
+        "pquestion1": ("1.)When working on a difficult assignment",
+                       ["I can choose my own way to complete tasks",
+                        "I have clear instructions to follow"]),
+        "pquestion2": ("2.)When learning something new",
+                        ["I rely on my own thinking and interpretation",
+                         "I rely on examples, teachers, or peers"]),
+        "pquestion3": ("3.)In group work",
+                       ["I focus on my own part and performance",
+                        "I focus on how the group performs as a whole"]),
+        "pquestion4": ("4.)When facing a problem",
+                       ["I adapt based on the situation and people around me",
+                        "I trust my own method"]),
+        "pquestion5": ("5.)When receiving feedback",
+                       ["I actively adjust based on feedback",
+                        "I evaluate it but rely mostly on my own judgment"]),
+        "pquestion6": ("6.)In class",
+                       ["I prefer working independently",
+                        "I learn better through interaction"])
+    },
+    "TH":{
+        "pquestion1": ("1.)เมื่อต้องทำงานที่มีความยากลำบาก",
+                       ["ฉันสามารถเลือกวิธีการทำงานในแบบของฉันเอง",
+                        "ฉันมักทำตามคำแนะนำที่มีความชัดเจน"]),
+        "pquestion2": ("2.)เมื่อต้องเรียนรู้สิ่งใหม่ๆ",
+                        ["ฉันมักจะพึ่งพาความคิดและความสามารถของตัวเอง",
+                         "ฉันเรียนรู้ผ่านตัวอย่างที่คุณครูสอนหรือของเพื่อน"]),
+        "pquestion3": ("3.)การทำงานกลุ่ม",
+                       ["ฉันโฟกัสไปที่ส่วนของฉันและผลงานของฉันเอง",
+                        "ฉันให้ความสำคัญกับผลการปฎิบัติการโดยรวมของเพื่อนร่วมงานภายในกลุ่ม"]),
+        "pquestion4": ("4.)เมื่อเผชิญหน้ากับปัญหา",
+                       ["ฉันจะปรับตัวไปตามสถานการณ์และผู้คนรอบๆตัว",
+                        "ฉันเชื่อมั่นในความสามารถของฉันเอง"]),
+        "pquestion5": ("5.)เมื่อได้รับคำติชม",
+                       ["ฉันเปิดรับและปรับปรุงตามคำติชมอย่างต่อเนื่อง",
+                        "ฉันเปิดรับคำติชมแต่ส่วนใหญ่จะอาศัยการตัดสินใจของตนเอง"]),
+        "pquestion6": ("6.)ขณะอยู่ในชั้นเรียน",
+                       ["ฉันชอบการทำงานเดี่ยว",
+                        "ฉันเรียนรู้ได้ดีจากการมีปฏิสัมพันธ์กับเพื่อนร่วมห้อง"])
+    }
+}
+
 text = {
     "EN": {
         "title": "AI Self Development Analyzer",
@@ -31,10 +74,10 @@ text = {
     "TH": {
         "title": "ระบบวิเคราะห์การพัฒนาตนเอง",
         "name": "👤 กรุณากรอกชื่อของคุณ",
-        "personality": "ลักษณะนิสัยและพฤติกรรม",
-        "mindset": "รูปแบบการเรียนรู้",
-        "rate": "ให้คะแนนตัวเอง (1-5)",
-        "open": "คำถามเพิ่มเติม",
+        "personality": "--ลักษณะนิสัยและพฤติกรรม--",
+        "mindset": "--รูปแบบการเรียนรู้--",
+        "rate": "--ให้คะแนนตัวเอง (1-5)--",
+        "open": "--คำถามเพิ่มเติม--",
         "analyze": "วิเคราะห์",
         "warning_name": "กรุณากรอกชื่อ",
         "warning_q": "กรุณาตอบคำถามให้ครบ",
