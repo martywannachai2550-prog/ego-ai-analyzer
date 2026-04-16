@@ -12,15 +12,15 @@ pquestion = [
         "EN": (
             "1.)When working on a difficult assignment",
             [
-                "I can choose my own way to complete tasks",
-                "I have clear instructions to follow"
+                "I prefer discussing with others to understand it",
+                "I prefer solving it on my own first"
             ]
         ),
         "TH": (
             "1.)เมื่อต้องทำงานที่มีความยากลำบาก",
             [
-                "ฉันสามารถเลือกวิธีการทำงานในแบบของฉันเอง",
-                "ฉันมักทำตามคำแนะนำที่มีความชัดเจน"
+                "ฉันชอบที่จะแลกเปลี่ยนความเห็นกับคนอื่นเพื่อทำความเข้าใจกับมัน",
+                "ฉันชอบที่จะลองแก้ไขปัญหาด้วยตัวเองก่อน"
             ]
         ),
         "score": ["individualistic", "wholistic"]
@@ -114,6 +114,116 @@ pquestion = [
             ]
         ),
         "score": ["individualistic", "wholistic"]
+    }
+]
+
+mquestion = [
+    {
+        "EN": (
+            "1.)I perform best when",
+            [
+                "I can choose my own way to complete tasks",
+                "I have clear instructions to follow"
+            ]
+        ),
+        "TH": (
+            "1.)ฉันแสดงความสามารถได้ดีเมื่อ",
+            [
+                "ฉันสามารถเลือกวิธีการทำงานในแบบของฉันเอง",
+                "ฉันมักทำตามคำแนะนำที่มีความชัดเจน"
+            ]
+        ),
+        "score": ["freedom", "restrictive"]
+    },
+
+    {
+        "EN": (
+            "2.)When doing assignments",
+            [
+                "I prefer structured tasks with clear steps",
+                "I prefer open-ended tasks"
+            ]
+        ),
+        "TH": (
+            "2.)เมื่อทำงานที่ได้รับมอบหมาย",
+            [
+                "ฉันชอบทำงานที่ีมีรายละเอียดขั้นตอนที่ชัดเจน",
+                "ฉันชอบงานที่ไม่มีจุดจบตายตัว"
+            ]
+        ),
+        "score": ["freedom", "restrictive"]
+    },
+
+    {
+        "EN": (
+            "3.)My study style is",
+            [
+                "Flexible and adaptable",
+                "Planned and consistent"
+            ]
+        ),
+        "TH": (
+            "3.)สไตล์การเรียนของฉันคือ",
+            [
+                "มีความยืดหยุ่นและดัดแปลงได้",
+                "มีการวางแผนและมีความสม่ำเสมอ"
+            ]
+        ),
+        "score": ["freedom", "restrictive"]
+    },
+
+    {
+        "EN": (
+            "4.)When solving problems",
+            [
+                "I follow a step-by-step method",
+                "I try different approaches freely"
+            ]
+        ),
+        "TH": (
+            "4.)เมื่อต้องแก้ไขปัญหา",
+            [
+                "ฉันจะทำตามวิธีการทีละขั้นตอน",
+                "ฉันจะลองวิธีการที่ต่างกันออกไปตามอิสระ"
+            ]
+        ),
+        "score": ["freedom", "restrictive"]
+    },
+
+    {
+        "EN": (
+            "5.)In deadlines",
+            [
+                "I stick strictly to a schedule",
+                "I adjust my pace based on situation"
+            ]
+        ),
+        "TH": (
+            "5.)ในระยะเวลาที่มีอยู่อย่างจำกัด",
+            [
+                "ฉันปฏิบัติตามตารางเวลาอย่างเคร่งครัด",
+                "ฉันปรับจังหวะการทำงานตามสถานการณ์"
+            ]
+        ),
+        "score": ["freedom", "restrictive"]
+    },
+
+    {
+        "EN": (
+            "6.)In learning environments",
+            [
+                "I feel comfortable with freedom",
+                "I feel comfortable with clear rules"
+            ]
+        ),
+        "TH": (
+            "6.)ในสภาพแวดล้อมที่ต้องเรียนรู้",
+            [
+                "ฉันรู้สึกสบายใจกับความอิสระ",
+                "ฉันรู้สึกสบายใจกับกฎข้อบังคับที่ชัดเจน"
+            ]
+        ),
+        "score": ["freedom", "restrictive"]
     }
 ]
 
@@ -212,7 +322,6 @@ ego_description = {
         "weakness": "May depend too much on structure"
     }
 }
-
 col1, col2 = st.columns([6,1])
 
 with col2:
@@ -223,7 +332,6 @@ name = st.text_input(text[language]["name"])
 
 st.header(text[language]["personality"])
 pc_answers = []
-
 for i, q in enumerate(pquestion):
     question, options = q[language]
 
@@ -241,64 +349,20 @@ for ans, q in pc_answers:
             wholistic += 2
 
 st.header(text[language]["mindset"])
-M1 = st.radio("I perform best when",
-              ['I can choose my own way to complete tasks',
-               'I have clear instructions to follow'],
-               index = None)
+m_answers = []
+for i, q in enumerate(mquestion):
+    question, options = q[language]
+    ans = st.radio(question, options, index=None)
+    m_answers.append((ans,q))
 
-M2 = st.radio("When doing assignments",
-              ['I prefer structured tasks with clear steps',
-               'I prefer open-ended tasks'],index = None)
+for ans, q in m_answers:
+    if ans is not None:
+        index = q[language][1].index(ans)
 
-M3 = st.radio("My study style is",
-              ['Flexible and adaptable',
-               'Planned and consistent'],
-               index = None)
-
-M4 = st.radio("When solving problems",
-              ['I follow a step-by-step method',
-               'I try different approaches freely'],
-               index = None)
-
-M5 = st.radio("In deadlines",
-              ['I stick strictly to a schedule',
-               'I adjust my pace based on situation'],
-               index = None)
-
-M6 = st.radio("In learning environments",
-              ['I feel comfortable with freedom',
-               'I feel comfortable with clear rules'],
-               index = None)
-
-if M1 == 'I can choose my own way to complete tasks':
-    freedom += 2
-elif M1 == 'I have clear instructions to follow':
-    restrictive += 2
-
-if M2 == 'I prefer open-ended tasks':
-    freedom += 2
-elif M2 == 'I prefer structured tasks with clear steps':
-    restrictive += 2
-
-if M3 == 'Flexible and adaptable':
-    freedom += 2
-elif M3 == 'Planned and consistent':
-    restrictive += 2
-
-if M4 == 'I try different approaches freely':
-    freedom += 2
-elif M4 == 'I follow a step-by-step method':
-    restrictive += 2
-
-if M5 == 'I adjust my pace based on situation':
-    freedom += 2
-elif M5 == 'I stick strictly to a schedule':
-    restrictive += 2
-
-if M6 == 'I feel comfortable with freedom':
-    freedom += 2
-elif M6 == 'I feel comfortable with clear rules':
-    restrictive += 2
+        if q["score"][index] == "restrictive":
+            restrictive += 2
+        else:
+            freedom += 2        
 
 st.header(text[language]["rate"])
 logic = st.slider("Logical Thinking",1,5)
