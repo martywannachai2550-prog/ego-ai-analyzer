@@ -334,9 +334,7 @@ st.header(text[language]["personality"])
 pc_answers = []
 for i, q in enumerate(pquestion):
     question, options = q[language]
-
     ans = st.radio(question, options, index=None)
-
     pc_answers.append((ans, q))
 
 for ans, q in pc_answers:
@@ -380,7 +378,7 @@ if st.button(text[language]["analyze"]):
     if not name:
         st.warning(text[language]["warning_name"])
     else:
-        all_answers = [PC1, PC2, PC3, PC4, PC5, PC6, M1, M2, M3, M4, M5, M6]
+        all_answers = [m_answers,pc_answers]
         if None in all_answers:
             st.warning(text[language]["warning_q"])
             st.stop()
