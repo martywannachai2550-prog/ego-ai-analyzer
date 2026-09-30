@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
+from ai_analyzer import analyze_open_questions
 from ego_analysis import analyze_ego
 from learning_plan import generate_plan
 
@@ -245,7 +246,8 @@ text = {
         "why": "Why this result?",
         "strategy": "Learning Strategy",
         "about": "About Your Ego",
-        "plan": "Suggested Study Plan"
+        "plan": "Suggested Study Plan",
+        "matrix": "Ego Matrix"
     },
 
     "TH": {
@@ -265,7 +267,8 @@ text = {
         "why": "เหตุผลของผลลัพธ์",
         "strategy": "กลยุทธ์การเรียน",
         "about": "เกี่ยวกับตัวคุณ",
-        "plan": "แผนการเรียนที่แนะนำ"
+        "plan": "แผนการเรียนที่แนะนำ",
+        "matrix": "อีโก้เมทริกซ์"
     }
 }
 
@@ -298,30 +301,54 @@ def plot_ego_matrix(scores):
     return fig
 
 ego_description = {
-    "Independent Explorer": {
-        "desc": "You learn best through self-direction and flexibility.",
-        "strength": "Independent, creative, adaptable",
-        "weakness": "May lack consistency and structure"
+    "EN": {
+        "Independent Explorer": {
+            "desc": "You learn best through self-direction and flexibility.",
+            "strength": "Independent, creative, adaptable",
+            "weakness": "May lack consistency and structure"
+        },
+        "Focused Achiever": {
+            "desc": "You rely on discipline and clear goals to succeed.",
+            "strength": "Focused, consistent, goal-oriented",
+            "weakness": "May become rigid under pressure"
+        },
+        "Adaptive Collaborator": {
+            "desc": "You learn effectively by interacting with others and adapting.",
+            "strength": "Collaborative, flexible, aware",
+            "weakness": "May lack clear personal direction"
+        },
+        "Structured Collaborator": {
+            "desc": "You thrive in structured environments with teamwork.",
+            "strength": "Organized, reliable, team-oriented",
+            "weakness": "May depend too much on structure"
+        }
     },
 
-    "Focused Achiever": {
-        "desc": "You rely on discipline and clear goals to succeed.",
-        "strength": "Focused, consistent, goal-oriented",
-        "weakness": "May become rigid under pressure"
-    },
-
-    "Adaptive Collaborator": {
-        "desc": "You learn effectively by interacting with others and adapting.",
-        "strength": "Collaborative, flexible, aware",
-        "weakness": "May lack clear personal direction"
-    },
-
-    "Structured Collaborator": {
-        "desc": "You thrive in structured environments with teamwork.",
-        "strength": "Organized, reliable, team-oriented",
-        "weakness": "May depend too much on structure"
+    "TH": {
+        "Independent Explorer": {
+            "desc": "คุณเรียนรู้ได้ดีที่สุดผ่านการกำกับตนเองและความยืดหยุ่น",
+            "strength": "อิสระ, สร้างสรรค์, ปรับตัวได้ดี",
+            "weakness": "อาจขาดความสม่ำเสมอและโครงสร้าง"
+        },
+        "Focused Achiever": {
+            "desc": "คุณประสบความสำเร็จได้ดีจากวินัยและเป้าหมายที่ชัดเจน",
+            "strength": "มีสมาธิ, สม่ำเสมอ, มุ่งเป้าหมาย",
+            "weakness": "อาจมีความเข้มงวดภายใต้แรงกดดันที่มากเกินไป"
+        },
+        "Adaptive Collaborator": {
+            "desc": "คุณเรียนรู้ได้ดีผ่านการทำงานร่วมกับผู้อื่นและการปรับตัว",
+            "strength": "ทำงานเป็นทีม, ยืดหยุ่น, เข้าใจผู้อื่น",
+            "weakness": "อาจขาดทิศทางส่วนตัวที่ชัดเจน"
+        },
+        "Structured Collaborator": {
+            "desc": "คุณทำงานได้ดีในสภาพแวดล้อมที่มีโครงสร้างและการทำงานเป็นทีม",
+            "strength": "เป็นระบบ, น่าเชื่อถือ, ทำงานร่วมกับผู้อื่นได้ดี",
+            "weakness": "อาจพึ่งพาโครงสร้างหรือผู้อื่นมากเกินไป"
+        }
     }
 }
+
+
 col1, col2 = st.columns([6,1])
 
 with col2:
@@ -378,20 +405,28 @@ if st.button(text[language]["analyze"]):
     if not name:
         st.warning(text[language]["warning_name"])
     else:
-        all_answers = [m_answers,pc_answers]
+        all_answers = [ans for ans, _ in pc_answers] + [ans for ans, _ in m_answers]
         if None in all_answers:
             st.warning(text[language]["warning_q"])
             st.stop()
-            
+
+            ai_result = analyze_open_questions(
+                goal,
+                learning_style,
+                strength
+            )
+
+            ai_scores = ai_result["scores"]
+                    
         scores = {
-            "individualistic": individualistic + logic + competition,
-            "wholistic": wholistic + system_thinking,
-            "freedom": freedom + creativity,
-            "restrictive": restrictive + logic
+            "individualistic": individualistic + logic + competition + ai_scores["individualistic"],
+            "wholistic": wholistic + system_thinking + ai_scores["wholistic"],
+            "freedom": freedom + creativity + ai_scores["freedom"],
+            "restrictive": restrictive + logic + ai_scores["restrictive"]
         }
 
         fig = plot_ego_matrix(scores)
-        st.subheader("Ego Matrix")
+        st.subheader(text[language]["matrix"])
         st.pyplot(fig)
 
         orientation, control, type_name, explanation = analyze_ego(scores)
@@ -426,9 +461,14 @@ if st.button(text[language]["analyze"]):
 
         info = ego_description[language][type_name]
 
-        st.write("Description:", info["desc"])
-        st.write("Strength:", info["strength"])
-        st.write("Weakness:", info["weakness"])
+        if language == "EN":
+            st.write("Description:", info["desc"])
+            st.write("Strength:", info["strength"])
+            st.write("Weakness:", info["weakness"])
+        else:
+            st.write("คำอธิบาย:", info["desc"])
+            st.write("จุดเด่น:", info["strength"])
+            st.write("จุดที่ควรพัฒนา:", info["weakness"])
 
         st.subheader(text[language]["plan"])
 
