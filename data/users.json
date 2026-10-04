@@ -1,68 +1,14 @@
 [
     {
-        "name": "",
-        "goal": "Adaptablility.",
+        "name": "RomartTest01",
+        "goal": "Adaptation.",
         "strength": "Adaptation.",
-        "ego_type": "Calculated Egoist"
+        "ego_type": "Focused Achiever"
     },
     {
-        "name": "Romart",
-        "goal": "Adaptablility.",
-        "strength": "Adaptation.",
-        "ego_type": "Calculated Egoist"
-    },
-    {
-        "name": "Romart2",
-        "goal": "Adaptablility.",
-        "strength": "Adaptation.",
-        "ego_type": "Calculated Egoist"
-    },
-    {
-        "name": "Romart3",
-        "goal": "Adaptablility.",
-        "strength": "Adaptation.",
-        "ego_type": "Instinct Striker"
-    },
-    {
-        "name": "Romart01",
-        "goal": "Adaptablility.",
-        "strength": "Adaptation.",
-        "ego_type": "Calculated Egoist"
-    },
-    {
-        "name": "Romart02",
-        "goal": "Adaptablility.",
-        "strength": "Adaptation.",
-        "ego_type": "Instinct Striker"
-    },
-    {
-        "name": "Romart03",
-        "goal": "Adaptablility.",
-        "strength": "Adaptation.",
-        "ego_type": "Instinct Striker"
-    },
-    {
-        "name": "Romart04",
-        "goal": "Adaptablility.",
-        "strength": "Determination.",
-        "ego_type": "Instinct Striker"
-    },
-    {
-        "name": "Romart04",
-        "goal": "Adaptablility.",
-        "strength": "Determination.",
-        "ego_type": "Calculated Egoist"
-    },
-    {
-        "name": "Romart05",
-        "goal": "Adaptablility.",
-        "strength": "Adaptation.",
-        "ego_type": "Independent Explorer"
-    },
-    {
-        "name": "\u0e2a\u0e32\u0e25\u0e32\u0e42\u0e1a\u0e2b\u0e4c",
-        "goal": "Adaptablility.",
-        "strength": "Adaptation.",
+        "name": "romart01",
+        "goal": "Adaptation",
+        "strength": "-",
         "ego_type": "Focused Achiever"
     }
 ]

@@ -1,12 +1,25 @@
 import streamlit as st
 import json
-import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+import os
+import matplotlib.pyplot as plt
+import matplotlib.font_manager as fm
 
 from ai_analyzer import analyze_open_questions
 from ego_analysis import analyze_ego
 from learning_plan import generate_plan
+
+FONT_PATH = os.path.join(
+    os.path.dirname(__file__),
+    "fonts",
+    "NotoSansThai.ttf"
+)
+
+if os.path.exists(FONT_PATH):
+    thai_font = fm.FontProperties(fname=FONT_PATH)
+else:
+    thai_font = None
 
 pquestion = [
     {
@@ -148,11 +161,11 @@ mquestion = [
         "TH": (
             "2.)เมื่อทำงานที่ได้รับมอบหมาย",
             [
-                "ฉันชอบทำงานที่ีมีรายละเอียดขั้นตอนที่ชัดเจน",
+                "ฉันชอบทำงานที่มีรายละเอียดขั้นตอนที่ชัดเจน",
                 "ฉันชอบงานที่ไม่มีจุดจบตายตัว"
             ]
         ),
-        "score": ["freedom", "restrictive"]
+        "score": ["restrictive", "freedom"]
     },
 
     {
@@ -188,7 +201,7 @@ mquestion = [
                 "ฉันจะลองวิธีการที่ต่างกันออกไปตามอิสระ"
             ]
         ),
-        "score": ["freedom", "restrictive"]
+        "score": ["restrictive", "freedom"]
     },
 
     {
@@ -206,7 +219,7 @@ mquestion = [
                 "ฉันปรับจังหวะการทำงานตามสถานการณ์"
             ]
         ),
-        "score": ["freedom", "restrictive"]
+        "score": ["restrictive", "freedom"]
     },
 
     {
@@ -247,7 +260,26 @@ text = {
         "strategy": "Learning Strategy",
         "about": "About Your Ego",
         "plan": "Suggested Study Plan",
-        "matrix": "Ego Matrix"
+        "matrix": "Ego Matrix",
+        "logic": "Logical Thinking",
+        "creativity": "Creativity",
+        "competition": "Competitiveness",
+        "system_thinking": "System Thinking",
+        "goal": "What skill do you want to master?",
+        "learning_style": "How do you usually learn?",
+        "strength_question": "Your biggest strength",
+        "confidence": "Confidence Level",
+        "high": "High",
+        "moderate": "Moderate",
+        "low": "Low",
+        "description": "Description",
+        "strength_label": "Strength",
+        "weakness_label": "Weakness",
+        "day": "Day",
+        "privacy": "Privacy Notice: Your data is stored locally and will not be shared. Results are for personal use only.",
+        "you": "You",
+        "x_axis": "← Wholistic | Individualistic →",
+        "y_axis": "↓ Restrictive | Freedom ↑"
     },
 
     "TH": {
@@ -268,7 +300,26 @@ text = {
         "strategy": "กลยุทธ์การเรียน",
         "about": "เกี่ยวกับตัวคุณ",
         "plan": "แผนการเรียนที่แนะนำ",
-        "matrix": "อีโก้เมทริกซ์"
+        "matrix": "อีโก้เมทริกซ์",
+        "logic": "การคิดเชิงตรรกะ",
+        "creativity": "ความคิดสร้างสรรค์",
+        "competition": "ความสามารถในการแข่งขัน",
+        "system_thinking": "การคิดเชิงระบบ",
+        "goal": "ทักษะอะไรที่คุณต้องการพัฒนา?",
+        "learning_style": "โดยปกติคุณเรียนรู้อย่างไร?",
+        "strength_question": "จุดแข็งที่สำคัญของคุณคืออะไร?",
+        "confidence": "ระดับความชัดเจนของผลลัพธ์",
+        "high": "สูง",
+        "moderate": "ปานกลาง",
+        "low": "ต่ำ",
+        "description": "คำอธิบาย",
+        "strength_label": "จุดเด่น",
+        "weakness_label": "จุดที่ควรพัฒนา",
+        "day": "วันที่",
+        "privacy": "ประกาศความเป็นส่วนตัว: ข้อมูลของคุณถูกจัดเก็บไว้ในอุปกรณ์นี้และจะไม่ถูกแชร์ ผลลัพธ์มีไว้สำหรับการใช้งานส่วนบุคคลเท่านั้น",
+        "you": "คุณ",
+        "x_axis": "← Wholistic | Individualistic →",
+        "y_axis": "↓ Restrictive | Freedom ↑"
     }
 }
 
@@ -277,8 +328,7 @@ wholistic = 0
 freedom = 0
 restrictive = 0
 
-def plot_ego_matrix(scores):
-
+def plot_ego_matrix(scores, language):
     x = scores["individualistic"] - scores["wholistic"]
     y = scores["freedom"] - scores["restrictive"]
 
@@ -288,15 +338,33 @@ def plot_ego_matrix(scores):
     ax.axvline(0)
 
     ax.scatter(x, y, color="red", s=120)
-    ax.grid(True)
 
-    ax.text(x, y, "You", fontsize=12)
+    if language == "TH" and thai_font is not None:
+        ax.text(
+            x, y,
+            text[language]["you"],
+            fontsize=12,
+            fontproperties=thai_font
+        )
 
-    ax.set_xlabel("← Wholistic | Individualistic →")
-    ax.set_ylabel("↓ Restrictive | Freedom ↑")
+        ax.set_xlabel(
+            text[language]["x_axis"],
+            fontproperties=thai_font
+        )
+
+        ax.set_ylabel(
+            text[language]["y_axis"],
+            fontproperties=thai_font
+        )
+
+    else:
+        ax.text(x, y, "You", fontsize=12)
+        ax.set_xlabel("← Wholistic | Individualistic →")
+        ax.set_ylabel("↓ Restrictive | Freedom ↑")
 
     ax.set_xlim(-20, 20)
     ax.set_ylim(-20, 20)
+    ax.grid(True)
 
     return fig
 
@@ -390,16 +458,16 @@ for ans, q in m_answers:
             freedom += 2        
 
 st.header(text[language]["rate"])
-logic = st.slider("Logical Thinking",1,5)
-creativity = st.slider("Creativity",1,5)
-competition = st.slider("Competitiveness",1,5)
-system_thinking = st.slider("System Thinking",1,5)
+logic = st.slider(text[language]["logic"],1,5)
+creativity = st.slider(text[language]["creativity"],1,5)
+competition = st.slider(text[language]["competition"],1,5)
+system_thinking = st.slider(text[language]["system_thinking"],1,5)
 
 st.header(text[language]["open"])
 
-goal = st.text_input("What skill do you want to master?")
-learning_style = st.text_area("How do you usually learn?")
-strength = st.text_area("Your biggest strength")
+goal = st.text_input(text[language]["goal"])
+learning_style = st.text_area(text[language]["learning_style"])
+strength = st.text_area(text[language]["strength_question"])
 
 if st.button(text[language]["analyze"]):
     if not name:
@@ -410,14 +478,14 @@ if st.button(text[language]["analyze"]):
             st.warning(text[language]["warning_q"])
             st.stop()
 
-            ai_result = analyze_open_questions(
-                goal,
-                learning_style,
-                strength
-            )
+        ai_result = analyze_open_questions(
+            goal,
+            learning_style,
+            strength
+        )
 
-            ai_scores = ai_result["scores"]
-                    
+        ai_scores = ai_result["scores"]
+
         scores = {
             "individualistic": individualistic + logic + competition + ai_scores["individualistic"],
             "wholistic": wholistic + system_thinking + ai_scores["wholistic"],
@@ -425,13 +493,16 @@ if st.button(text[language]["analyze"]):
             "restrictive": restrictive + logic + ai_scores["restrictive"]
         }
 
-        fig = plot_ego_matrix(scores)
+        fig = plot_ego_matrix(scores, language)
         st.subheader(text[language]["matrix"])
         st.pyplot(fig)
 
-        orientation, control, type_name, explanation = analyze_ego(scores)
+        orientation, control, type_name, explanation = analyze_ego(
+        scores,
+        language
+        )
 
-        strategy, schedule = generate_plan(type_name)
+        strategy, schedule = generate_plan(type_name, language)
 
         st.header(text[language]["result"])
 
@@ -451,7 +522,7 @@ if st.button(text[language]["analyze"]):
             level = "Moderate"
         else:
             level = "Low"
-        st.write(f"Confidence Level: {level} ({confidence})")
+        st.write(f"{text[language]['confidence']}: {text[language][level.lower()]} ({confidence})")
 
         st.subheader(text[language]["strategy"])
 
@@ -461,19 +532,14 @@ if st.button(text[language]["analyze"]):
 
         info = ego_description[language][type_name]
 
-        if language == "EN":
-            st.write("Description:", info["desc"])
-            st.write("Strength:", info["strength"])
-            st.write("Weakness:", info["weakness"])
-        else:
-            st.write("คำอธิบาย:", info["desc"])
-            st.write("จุดเด่น:", info["strength"])
-            st.write("จุดที่ควรพัฒนา:", info["weakness"])
+        st.write(text[language]["description"] + ":", info["desc"])
+        st.write(text[language]["strength_label"] + ":", info["strength"])
+        st.write(text[language]["weakness_label"] + ":", info["weakness"])
 
         st.subheader(text[language]["plan"])
 
         for i, s in enumerate(schedule):
-            st.write(f"Day {i+1} - {s}")
+            st.write(f"{text[language]['day']} {i+1} - {s}")
 
         data = {
             "name": name,
@@ -495,4 +561,4 @@ if st.button(text[language]["analyze"]):
         except:
             users = []
 
-        st.caption("Privacy Notice: Your data is stored locally and will not be shared. Results are for personal use only.")
+        st.caption(text[language]["privacy"])
